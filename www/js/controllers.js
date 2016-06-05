@@ -59,14 +59,45 @@ angular.module('DentaCloud.controllers', [])
     
 }])
 
-.controller('CustomerController', ['$scope', 'CustomerService', function($scope, CustomerService) {
+.controller('CustomerController', ['$scope', '$ionicModal', 'CustomerService', function($scope, $ionicModal, CustomerService) {
     
   $scope.customers = [];
+  // Form data for the customer modal
+  $scope.customer = {};
 
     $scope.reloadCustomers = function() {
         CustomerService.list().then(function(response) {
             $scope.customers = response.data;
         });
+    };
+
+    $scope.deleteCustomer = function(customer) {
+
+        CustomerService.delete(customer._id).then(function() {
+            $scope.reloadCustomers();
+        });
+    };
+
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/customerDetail.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.customerForm = modal;
+    });
+
+    $scope.showCustomerModal = function () {
+      $scope.customer = {};
+      $scope.customerForm.show();
+    }
+
+    $scope.closeCustomerModal = function () {
+      $scope.customerForm.hide();
+    }
+
+    $scope.saveCustomer = function() {
+        CustomerService.save($scope.customer);
+        $scope.closeCustomerModal();
+        $scope.reloadCustomers();
     };
 
     $scope.reloadCustomers();

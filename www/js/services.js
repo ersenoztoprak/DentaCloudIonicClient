@@ -2,7 +2,7 @@
 
 
 angular.module('DentaCloud.services', ['ngResource'])
-.constant("baseURL", "http://localhost:3000/")
+.constant("baseURL", "http://localhost:4000/")
 .factory('$localStorage', ['$window', function ($window) {
     return {
         store: function (key, value) {
@@ -131,6 +131,17 @@ angular.module('DentaCloud.services', ['ngResource'])
     return {
         list: function() {
             return $http.get(baseURL + 'customers');
+        },
+        delete: function(id) {
+            return $http.delete(baseURL + 'customers/' + id);
+        },
+        save: function (customerData) {
+          if (customerData._id) {
+            return $http.put(baseURL + 'customers/' + customerData._id, customerData);
+          }
+          else {
+            return $http.post(baseURL + 'customers', customerData);
+          }
         }
         
     };

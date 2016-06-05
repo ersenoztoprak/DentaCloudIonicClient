@@ -1,5 +1,12 @@
 <ion-view view-title="Customers">
    
+  <ion-nav-buttons side="secondary">
+      <div class="buttons">
+        <button class="button-assertive icon ion-plus-circled"
+          ng-click="showCustomerModal()"></button>
+      </div>
+  </ion-nav-buttons>
+
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="customer in customers">
@@ -8,7 +15,10 @@
         <p>{{customer.phone}}</p>
         <p>{{customer.email}}</p>
         <p>{{customer.address}}</p>
-        
+
+        <ion-option-button class="button button-icon icon ion-ios-minus-outline"
+           ng-click="deleteCustomer({{customer}})">
+        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>
