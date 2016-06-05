@@ -36,7 +36,8 @@ angular.module('DentaCloud', ['ionic', 'DentaCloud.controllers', 'DentaCloud.ser
     url: '/customers',
     views: {
       'menuContent': {
-        templateUrl: 'templates/customer.html'
+        templateUrl: 'templates/customer.html',
+        controller: 'CustomerController'
       }
     }
   })
@@ -53,7 +54,8 @@ angular.module('DentaCloud', ['ionic', 'DentaCloud.controllers', 'DentaCloud.ser
       url: '/schedule',
       views: {
         'menuContent': {
-          templateUrl: 'templates/schedule.html'
+          templateUrl: 'templates/schedule.html',
+          controller: 'HomeController'
         }
       }
     })
@@ -64,6 +66,15 @@ angular.module('DentaCloud', ['ionic', 'DentaCloud.controllers', 'DentaCloud.ser
       'menuContent': {
         templateUrl: 'templates/login.html',
         controller: 'LoginController'
+      }
+    }
+  })
+
+  .state('app.logout', {
+    url: '/logout',
+    views: {
+      'menuContent': {
+        controller: 'LogoutController'
       }
     }
   });

@@ -31,16 +31,47 @@ angular.module('DentaCloud.controllers', [])
 
 }])
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('LogoutController', ['$scope', '$ionicHistory', '$state', 'AuthFactory', function ($scope, $ionicHistory, $state, AuthFactory) {
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+        AuthFactory.logout();
+
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+
+        $state.go('app.login');
+
+
+}])
+
+.controller('HomeController', ['$scope' ,'HomeFactory',  function ($scope, HomeFactory) {
+    $scope.message = "Loading ...";
+    
+
+  HomeFactory.query(
+        function (response) {
+            console.log(response.data);
+            $scope.schedules = response;
+        },
+        function (response) {
+            $scope.message = "Error: " + response.status + " " + response.statusText;
+        });
+    
+}])
+
+.controller('CustomerController', ['$scope', 'CustomerService', function($scope, CustomerService) {
+    
+  $scope.customers = [];
+
+    $scope.reloadCustomers = function() {
+        CustomerService.list().then(function(response) {
+            $scope.customers = response.data;
+        });
+    };
+
+    $scope.reloadCustomers();
+  
+}])
+
+
+;

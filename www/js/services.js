@@ -116,4 +116,24 @@ angular.module('DentaCloud.services', ['ngResource'])
     
 }])
 
+.factory('HomeFactory', ['$resource', 'baseURL', function($resource, baseURL) {
+
+  return $resource(baseURL + "appoitments", null, {
+            'update': {
+                method: 'PUT'
+            }
+        });
+
+}])
+
+.service('CustomerService', [ '$http', 'baseURL', function($http, baseURL) {
+
+    return {
+        list: function() {
+            return $http.get(baseURL + 'customers');
+        }
+        
+    };
+}])
+
 ;
