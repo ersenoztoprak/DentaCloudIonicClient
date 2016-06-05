@@ -1,0 +1,59 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Appoitment Card</h1>
+    <div class="buttons">
+      <button class="button button-positive button-clear" ng-click="closeAppoitmentModal()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="bookAppoitment()">
+      <div class="list">
+        <label class="item item-input item-select">
+		    <div class="input-label">
+		      Staff
+		    </div>
+		    <select ng-model="appoitment.staff">
+		      <option value="">Select Staff</option>
+              <option ng:repeat="staff in staffs" value="{{staff._id}}">{{staff.firstName}} {{staff.lastName}}</option>
+		    </select>
+		</label>
+
+        <label class="item item-input item-select">
+		    <div class="input-label">
+		      Service
+		    </div>
+		    <select ng-model="appoitment.service">
+		      <option value="">Select Service</option>
+              <option ng:repeat="service in services" value="{{service._id}}">{{service.name}}</option>
+		    </select>
+		</label>
+
+		<label class="item item-input item-select">
+		    <div class="input-label">
+		      Customer
+		    </div>
+		    <select ng-model="appoitment.customer">
+		      <option value="">Select Customer</option>
+              <option ng:repeat="customer in customers" value="{{customer._id}}">{{customer.firstName}} {{customer.lastName}}</option>
+		    </select>
+		</label>
+
+		<label class="item item-input">
+          <span class="input-label">When</span>
+          <input type="datetime-local" ng-model="appoitment.date" placeholder="yyyy-MM-ddTHH:mm" />
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Note</span>
+          <textarea placeholder = 'Enter note if needed...' ng-model="appoitment.note"></textarea>
+        </label>
+
+
+       
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Save</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

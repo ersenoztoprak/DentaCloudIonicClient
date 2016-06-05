@@ -116,13 +116,13 @@ angular.module('DentaCloud.services', ['ngResource'])
     
 }])
 
-.factory('HomeFactory', ['$resource', 'baseURL', function($resource, baseURL) {
+.service('HomeService', ['$http', 'baseURL', function($http, baseURL) {
 
-  return $resource(baseURL + "appoitments", null, {
-            'update': {
-                method: 'PUT'
-            }
-        });
+  return {
+        list: function() {
+            return $http.get(baseURL + 'appoitments');
+        }
+  };
 
 }])
 
@@ -145,6 +145,79 @@ angular.module('DentaCloud.services', ['ngResource'])
         }
         
     };
+}])
+
+.service('StaffService', [ '$http', 'baseURL', function($http, baseURL) {
+
+    return {
+        list: function() {
+            return $http.get(baseURL + 'staffs');
+        },
+        delete: function(id) {
+            return $http.delete(baseURL + 'staffs/' + id);
+        }
+    };
+}])
+
+.service('CustomerService', [ '$http', 'baseURL', function($http, baseURL) {
+
+    return {
+        list: function() {
+            return $http.get(baseURL + 'customers');
+        },
+        delete: function(id) {
+          console.log("service", id);
+            return $http.delete(baseURL + 'customers/' + id);
+        }
+    };
+}])
+
+.service('ServicesService', [ '$http', 'baseURL', function($http, baseURL) {
+
+    return {
+        list: function() {
+            return $http.get(baseURL + 'services');
+        },
+        delete: function(id) {
+            return $http.delete(baseURL + 'services/' + id);
+        }
+    };
+}])
+
+.factory('AppoitmnetFactory', ['$resource', '$ionicPopup', 'baseURL', function($resource, $ionicPopup, baseURL) {
+
+  var appFac = {};
+
+  appFac.book = function(appoitmentData) {
+
+        $resource(baseURL + "appoitments")
+        .save(appoitmentData,
+           function(response) {
+             console.log('Appoitment created!');
+           },
+           function(response){
+            
+              var message = '<div class="ngdialog-message">' +
+                '<div><h3>Booking Unsuccessful</h3></div>' +
+                  '<div><p>' +  response.data.err.message + 
+                  '</p><p>' + response.data.err.name + '</p></div>';
+
+                var alertPopup = $ionicPopup.alert({
+                    title: '<h4>Booking Failed!</h4>',
+                    template: message
+                });
+
+                alertPopup.then(function(res) {
+                    console.log('Booking Failed!');
+                });
+
+           }
+        
+        );
+    };
+
+    return appFac;
+
 }])
 
 ;

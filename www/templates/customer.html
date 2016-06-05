@@ -9,7 +9,7 @@
 
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="customer in customers">
+      <ion-item ng-repeat="customer in customers" ng-click="editCustomerModal({{customer}})">
         
         <p>{{customer.firstName}} {{customer.lastName}}</p>
         <p>{{customer.phone}}</p>

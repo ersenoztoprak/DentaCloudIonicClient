@@ -44,18 +44,65 @@ angular.module('DentaCloud.controllers', [])
 
 }])
 
-.controller('HomeController', ['$scope' ,'HomeFactory',  function ($scope, HomeFactory) {
-    $scope.message = "Loading ...";
+.controller('HomeController', ['$scope', '$ionicModal' ,'HomeService', 'StaffService', 'ServicesService', 'CustomerService', 'AppoitmnetFactory',  function ($scope, $ionicModal, HomeService, StaffService, ServicesService, CustomerService, AppoitmnetFactory) {
     
+  $scope.schedules = [];
+  // Form data for the customer modal
+  $scope.appoitment = {};
 
-  HomeFactory.query(
-        function (response) {
-            console.log(response.data);
-            $scope.schedules = response;
-        },
-        function (response) {
-            $scope.message = "Error: " + response.status + " " + response.statusText;
+  StaffService.list().then(
+    function (response) {
+        $scope.staffs = response.data;
+    },
+    function (response) {
+        $scope.message = "Error: " + response.status + " " + response.statusText;
+    }
+  );
+
+  ServicesService.list().then(
+    function (response) {
+        $scope.services = response.data;
+    },
+    function (response) {
+        $scope.message = "Error: " + response.status + " " + response.statusText;
+    }
+  );
+
+  CustomerService.list().then(
+    function(response) {
+        $scope.customers = response.data;
+    }
+  );
+
+  $scope.reloadSchedules = function() {
+        HomeService.list().then(function(response) {
+            $scope.schedules = response.data;
         });
+    };
+
+  $ionicModal.fromTemplateUrl('templates/appoitmentDetail.html', {
+      scope: $scope
+  }).then(function (modal) {
+      $scope.appoitmentForm = modal;
+  });
+
+  $scope.showAppoitmentModal = function () {
+    $scope.appoitment = {};
+    $scope.appoitmentForm.show();
+  };
+
+  $scope.closeAppoitmentModal = function () {
+    $scope.appoitmentForm.hide();
+  };
+
+  $scope.bookAppoitment = function() {
+    $scope.appoitment.date = Math.round(new Date($scope.appoitment.date).getTime()/1000);
+    AppoitmnetFactory.book($scope.appoitment);
+    $scope.closeAppoitmentModal();
+    $scope.reloadSchedules();
+  };
+
+  $scope.reloadSchedules();
     
 }])
 
@@ -78,7 +125,7 @@ angular.module('DentaCloud.controllers', [])
         });
     };
 
-    // Create the login modal that we will use later
+    // Create the customer modal that we will use later
     $ionicModal.fromTemplateUrl('templates/customerDetail.html', {
         scope: $scope
     }).then(function (modal) {
@@ -87,6 +134,11 @@ angular.module('DentaCloud.controllers', [])
 
     $scope.showCustomerModal = function () {
       $scope.customer = {};
+      $scope.customerForm.show();
+    }
+
+    $scope.editCustomerModal = function (customer) {
+      $scope.customer = customer;
       $scope.customerForm.show();
     }
 

@@ -2,6 +2,13 @@
 
 <ion-view view-title="Schedules">
    
+  <ion-nav-buttons side="secondary">
+      <div class="buttons">
+        <button class="button-assertive icon ion-plus-circled"
+          ng-click="showAppoitmentModal()"></button>
+      </div>
+  </ion-nav-buttons>
+
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="schedule in schedules">
