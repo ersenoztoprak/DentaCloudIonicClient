@@ -23,7 +23,7 @@ angular.module('DentaCloud.services', ['ngResource'])
     };
 }])
 
-.factory('AuthFactory', ['$resource', '$http', '$localStorage', '$rootScope', '$window', 'baseURL', 'ngDialog', function($resource, $http, $localStorage, $rootScope, $window, baseURL, ngDialog){
+.factory('AuthFactory', ['$resource', '$http', '$localStorage', '$rootScope', '$window', '$ionicPopup','$state', '$ionicHistory', 'baseURL', function($resource, $http, $localStorage, $rootScope, $window, $ionicPopup, $state, $ionicHistory, baseURL){
     
     var authFac = {};
     var TOKEN_KEY = 'Token';
@@ -69,20 +69,27 @@ angular.module('DentaCloud.services', ['ngResource'])
            function(response) {
               storeUserCredentials({username:loginData.username, token: response.token});
               $rootScope.$broadcast('login:Successful');
+
+              $ionicHistory.nextViewOptions({
+                disableBack: true
+              });
+
+              $state.go('app.schedule');
            },
            function(response){
               isAuthenticated = false;
             
-              var message = '\
-                <div class="ngdialog-message">\
-                <div><h3>Login Unsuccessful</h3></div>' +
-                  '<div><p>' +  response.data.err.message + '</p><p>' +
-                    response.data.err.name + '</p></div>' +
-                '<div class="ngdialog-buttons">\
-                    <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click=confirm("OK")>OK</button>\
-                </div>';
+              var message = '<div><p>' +  response.data.err.message + 
+                  '</p><p>' + response.data.err.name + '</p></div>';
             
-                ngDialog.openConfirm({ template: message, plain: 'true'});
+               var alertPopup = $ionicPopup.alert({
+                    title: '<h4>Login Failed!</h4>',
+                    template: message
+                });
+
+                alertPopup.then(function(res) {
+                    console.log('Login Failed!');
+                });
            }
         
         );

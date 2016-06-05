@@ -12,17 +12,24 @@ angular.module('DentaCloud.controllers', [])
   
 })
 
-.controller('LoginController', function ($scope) {
+.controller('LoginController', ['$scope', '$localStorage', 'AuthFactory', function ($scope, $localStorage, AuthFactory) {
 
-   
+    $scope.loginData = $localStorage.getObject('userinfo','{}');
     
     $scope.doLogin = function() {
-        console.log('sik');
-
+        if($scope.rememberMe) {
+          $localStorage.storeObject('userinfo',$scope.loginData);
+        }
+           
+        AuthFactory.login($scope.loginData);
     };
 
-    
-})
+    if(AuthFactory.isAuthenticated()) {
+        $scope.loggedIn = true;
+        $scope.username = AuthFactory.getUsername();
+    }
+
+}])
 
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
