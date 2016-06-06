@@ -6,26 +6,43 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="saveCustomer()">
+    <form name="customerForm" ng-submit="saveCustomer()">
       <div class="list">
-        <label class="item item-input">
-          <span class="input-label">First Name</span>
-          <input type="text" ng-model="customer.firstName">
+
+        <label class="item item-input"  ng-class="{ 'has-errors' : customerForm.firstName.$invalid && !customerForm.firstName.$pristine , 'no-errors' : customerForm.firstName.$valid}">
+          <span class="input-label">Username</span>
+          <input type="text" name="firstName" ng-model="customer.firstName" required>
         </label>
-         <label class="item item-input">
+             
+        <div class="error-container" ng-show="customerForm.firstName.$error && !customerForm.firstName.$pristine " ng-messages="customerForm.firstName.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+        <label class="item item-input" ng-class="{ 'has-errors' : customerForm.lastName.$invalid && !customerForm.lastName.$pristine , 'no-errors' : customerForm.lastName.$valid}">
           <span class="input-label">Last Name</span>
-          <input type="text" ng-model="customer.lastName">
+          <input type="text" name="lastName" ng-model="customer.lastName" required>
         </label>
-         <label class="item item-input">
+
+        <div class="error-container" ng-show="customerForm.lastName.$error && !customerForm.lastName.$pristine " ng-messages="customerForm.lastName.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+        <label class="item item-input" ng-class="{ 'has-errors' : customerForm.phone.$invalid && !customerForm.phone.$pristine , 'no-errors' : customerForm.phone.$valid}">
           <span class="input-label">Phone</span>
-          <input type="text" ng-model="customer.phone">
+          <input type="text" name="phone" ng-model="customer.phone" required>
         </label>
+
+        <div class="error-container" ng-show="customerForm.phone.$error && !customerForm.phone.$pristine " ng-messages="customerForm.phone.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
        <label class="item item-input">
           <span class="input-label">Email</span>
           <input type="email" ng-model="customer.email">
         </label>
+
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Save</button>
+          <button class="button button-block button-positive" ng-disabled="customerForm.$invalid" type="submit">Save</button>
         </label>
       </div>
     </form>

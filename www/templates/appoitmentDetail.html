@@ -6,39 +6,55 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="bookAppoitment()">
+    <form name="bookForm" ng-submit="bookAppoitment()">
       <div class="list">
-        <label class="item item-input item-select">
+        <label class="item item-input item-select" ng-class="{ 'has-errors' : bookForm.staff.$invalid && !bookForm.staff.$pristine , 'no-errors' : bookForm.staff.$valid}">
           <div class="input-label">
   		      Staff
   		    </div>
   		    
-          <select ng-model="appoitment.staff" ng-options="staff.firstName + ' ' + staff.lastName for staff in staffs track by staff._id ">
+          <select name="staff" ng-model="appoitment.staff" ng-options="staff.firstName + ' ' + staff.lastName for staff in staffs track by staff._id " required>
           <option value="">Select Staff</option></select>
 		    </label>
 
-        <label class="item item-input item-select">
+        <div class="error-container" ng-show="bookForm.staff.$error && !bookForm.staff.$pristine " ng-messages="bookForm.staff.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+        <label class="item item-input item-select" ng-class="{ 'has-errors' : bookForm.service.$invalid && !bookForm.service.$pristine , 'no-errors' : bookForm.service.$valid}">
   		    <div class="input-label">
   		      Service
   		    </div>
   		    
-          <select ng-model="appoitment.service" ng-options="service.name for service in services track by service._id ">
+          <select name="service" ng-model="appoitment.service" ng-options="service.name for service in services track by service._id " required>
           <option value="">Select Service</option></select>
         </label>
 
-		    <label class="item item-input item-select">
+        <div class="error-container" ng-show="bookForm.service.$error && !bookForm.service.$pristine " ng-messages="bookForm.service.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+		    <label class="item item-input item-select" ng-class="{ 'has-errors' : bookForm.customer.$invalid && !bookForm.customer.$pristine , 'no-errors' : bookForm.customer.$valid}">
   		    <div class="input-label">
   		      Customer
   		    </div>
 
-          <select ng-model="appoitment.customer" ng-options="customer.firstName + ' ' + customer.lastName for customer in customers track by customer._id ">
+          <select name="customer" ng-model="appoitment.customer" ng-options="customer.firstName + ' ' + customer.lastName for customer in customers track by customer._id " required>
           <option value="">Select Customer</option></select>
 		    </label>
 
-		    <label class="item item-input">
+        <div class="error-container" ng-show="bookForm.customer.$error && !bookForm.customer.$pristine " ng-messages="bookForm.customer.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+		    <label class="item item-input" ng-class="{ 'has-errors' : bookForm.date.$invalid && !bookForm.date.$pristine , 'no-errors' : bookForm.date.$valid}">
           <span class="input-label">When</span>
-          <input type="datetime-local" ng-model="appoitment.date" placeholder="yyyy-MM-ddTHH:mm" />
+          <input name="date" type="datetime-local" ng-model="appoitment.date" placeholder="yyyy-MM-ddTHH:mm" required/>
         </label>
+
+        <div class="error-container" ng-show="bookForm.date.$error && !bookForm.date.$pristine " ng-messages="bookForm.date.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
 
         <label class="item item-input">
           <span class="input-label">Note</span>
@@ -46,7 +62,7 @@
         </label>
        
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Save</button>
+          <button class="button button-block button-positive" ng-disabled="bookForm.$invalid" type="submit">Save</button>
         </label>
       </div>
     </form>
