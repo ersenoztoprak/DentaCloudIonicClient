@@ -44,7 +44,7 @@ angular.module('DentaCloud.controllers', [])
 
 }])
 
-.controller('HomeController', ['$scope', '$ionicModal' ,'HomeService', 'StaffService', 'ServicesService', 'CustomerService', 'AppoitmnetFactory',  function ($scope, $ionicModal, HomeService, StaffService, ServicesService, CustomerService, AppoitmnetFactory) {
+.controller('HomeController', ['$scope', '$ionicModal' ,'HomeService', 'StaffService', 'ServicesService', 'CustomerService', 'AppointmentService',  function ($scope, $ionicModal, HomeService, StaffService, ServicesService, CustomerService, AppointmentService) {
     
   $scope.schedules = [];
   // Form data for the customer modal
@@ -97,10 +97,25 @@ angular.module('DentaCloud.controllers', [])
 
   $scope.bookAppoitment = function() {
     $scope.appoitment.date = Math.round(new Date($scope.appoitment.date).getTime()/1000);
-    AppoitmnetFactory.book($scope.appoitment);
-    $scope.closeAppoitmentModal();
-    $scope.reloadSchedules();
+    AppointmentService.book($scope.appoitment).then(function(response){
+      $scope.closeAppoitmentModal();
+      $scope.reloadSchedules();
+    });
+    
   };
+
+  $scope.deleteAppoitment = function(appoitment) {
+
+        AppointmentService.delete(appoitment._id).then(function() {
+            $scope.reloadSchedules();
+        });
+  };
+
+  $scope.editAppoitmentModal = function (appoitment) {
+      
+      $scope.appoitment = appoitment;
+      $scope.appoitmentForm.show();
+  }  
 
   $scope.reloadSchedules();
     

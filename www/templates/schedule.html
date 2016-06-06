@@ -11,12 +11,16 @@
 
   <ion-content>
     <ion-list>
-      <ion-item ng-repeat="schedule in schedules">
+      <ion-item ng-repeat="schedule in schedules" ng-click="editAppoitmentModal({{schedule}})">
         
         <p>{{schedule.date * 1000 | date:'dd-MM-yyyy HH:mm'}}</p>
         <p>{{schedule.customer.firstName}} {{schedule.customer.lastName}}</p>
         <p>{{schedule.staff.firstName}} {{schedule.staff.lastName}}</p>
         <p>{{schedule.service.name}}</p>
+
+        <ion-option-button class="button button-icon icon ion-ios-minus-outline"
+           ng-click="deleteAppoitment({{schedule}})">
+        </ion-option-button>
         
       </ion-item>
     </ion-list>

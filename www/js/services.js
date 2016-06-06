@@ -159,19 +159,6 @@ angular.module('DentaCloud.services', ['ngResource'])
     };
 }])
 
-.service('CustomerService', [ '$http', 'baseURL', function($http, baseURL) {
-
-    return {
-        list: function() {
-            return $http.get(baseURL + 'customers');
-        },
-        delete: function(id) {
-          console.log("service", id);
-            return $http.delete(baseURL + 'customers/' + id);
-        }
-    };
-}])
-
 .service('ServicesService', [ '$http', 'baseURL', function($http, baseURL) {
 
     return {
@@ -184,39 +171,23 @@ angular.module('DentaCloud.services', ['ngResource'])
     };
 }])
 
-.factory('AppoitmnetFactory', ['$resource', '$ionicPopup', 'baseURL', function($resource, $ionicPopup, baseURL) {
+.service('AppointmentService', ['$http', '$ionicPopup', 'baseURL', function($http, $ionicPopup, baseURL) {
 
-  var appFac = {};
+  return {
+    book: function(appoitmentData) {
 
-  appFac.book = function(appoitmentData) {
+        if (appoitmentData._id) {
+            return $http.put(baseURL + 'appoitments/' + appoitmentData._id, appoitmentData);
+        }
+        else {
+            return $http.post(baseURL + 'appoitments', appoitmentData);
+        }
+    },
 
-        $resource(baseURL + "appoitments")
-        .save(appoitmentData,
-           function(response) {
-             console.log('Appoitment created!');
-           },
-           function(response){
-            
-              var message = '<div class="ngdialog-message">' +
-                '<div><h3>Booking Unsuccessful</h3></div>' +
-                  '<div><p>' +  response.data.err.message + 
-                  '</p><p>' + response.data.err.name + '</p></div>';
-
-                var alertPopup = $ionicPopup.alert({
-                    title: '<h4>Booking Failed!</h4>',
-                    template: message
-                });
-
-                alertPopup.then(function(res) {
-                    console.log('Booking Failed!');
-                });
-
-           }
-        
-        );
-    };
-
-    return appFac;
+    delete: function(id) {
+        return $http.delete(baseURL + 'appoitments/' + id);
+    }
+  };
 
 }])
 
