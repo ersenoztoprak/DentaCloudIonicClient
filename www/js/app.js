@@ -42,11 +42,12 @@ angular.module('DentaCloud', ['ionic', 'ngMessages', 'DentaCloud.controllers', '
     }
   })
 
-  .state('app.appoitments', {
-      url: '/appoitments',
+  .state('app.staff', {
+      url: '/staffs',
       views: {
         'menuContent': {
-          templateUrl: 'templates/appoitment.html'
+          templateUrl: 'templates/staff.html',
+          controller: 'StaffController'
         }
       }
     })

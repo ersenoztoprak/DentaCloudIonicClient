@@ -1,0 +1,24 @@
+<ion-view view-title="Staffs">
+   
+  <ion-nav-buttons side="secondary">
+      <div class="buttons">
+        <button class="button-assertive icon ion-plus-circled"
+          ng-click="showStaffModal()"></button>
+      </div>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="staff in staffs" ng-click="editStaffModal({{staff}})">
+        
+        <p>{{staff.firstName}} {{staff.lastName}}</p>
+        <p>{{staff.phone}}</p>
+        <p>{{staff.email}}</p>
+
+        <ion-option-button class="button button-icon icon ion-ios-minus-outline"
+           ng-click="deleteStaff({{staff}})">
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -155,7 +155,16 @@ angular.module('DentaCloud.services', ['ngResource'])
         },
         delete: function(id) {
             return $http.delete(baseURL + 'staffs/' + id);
+        },
+        save: function (staffData) {
+          if (staffData._id) {
+            return $http.put(baseURL + 'staffs/' + staffData._id, staffData);
+          }
+          else {
+            return $http.post(baseURL + 'staffs', staffData);
+          }
         }
+        
     };
 }])
 

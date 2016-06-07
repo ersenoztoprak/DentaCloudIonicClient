@@ -50,35 +50,29 @@ angular.module('DentaCloud.controllers', [])
   // Form data for the customer modal
   $scope.appoitment = {};
 
-  StaffService.list().then(
-    function (response) {
-        $scope.staffs = response.data;
-    },
-    function (response) {
-        $scope.message = "Error: " + response.status + " " + response.statusText;
-    }
-  );
+  $scope.reloadStaffs = function() {
+      StaffService.list().then(function (response) {
+          $scope.staffs = response.data;
+    });
+  };
 
-  ServicesService.list().then(
-    function (response) {
-        $scope.services = response.data;
-    },
-    function (response) {
-        $scope.message = "Error: " + response.status + " " + response.statusText;
-    }
-  );
+  $scope.reloadServices = function() {
+      ServicesService.list().then(function (response) {
+          $scope.services = response.data;
+      });
+  };
 
-  CustomerService.list().then(
-    function(response) {
-        $scope.customers = response.data;
-    }
-  );
+  $scope.reloadCustomers = function() {
+      CustomerService.list().then(function (response) {
+          $scope.customers = response.data;
+      });
+  };
 
   $scope.reloadSchedules = function() {
-        HomeService.list().then(function(response) {
-            $scope.schedules = response.data;
-        });
-    };
+      HomeService.list().then(function(response) {
+          $scope.schedules = response.data;
+      });
+  }; 
 
   $ionicModal.fromTemplateUrl('templates/appoitmentDetail.html', {
       scope: $scope
@@ -87,6 +81,10 @@ angular.module('DentaCloud.controllers', [])
   });
 
   $scope.showAppoitmentModal = function () {
+    $scope.reloadStaffs();
+    $scope.reloadServices();
+    $scope.reloadCustomers();
+
     $scope.appoitment = {};
     $scope.appoitmentForm.show();
   };
@@ -168,6 +166,56 @@ angular.module('DentaCloud.controllers', [])
     };
 
     $scope.reloadCustomers();
+  
+}])
+
+.controller('StaffController', ['$scope', '$ionicModal', 'StaffService', function($scope, $ionicModal, StaffService) {
+    
+  $scope.staffs = [];
+  // Form data for the customer modal
+  $scope.staff = {};
+
+    $scope.reloadStaffs = function() {
+        StaffService.list().then(function(response) {
+            $scope.staffs = response.data;
+        });
+    };
+
+    $scope.deleteStaff = function(staff) {
+
+        StaffService.delete(staff._id).then(function() {
+            $scope.reloadStaffs();
+        });
+    };
+
+    // Create the customer modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/staffDetail.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.staffForm = modal;
+    });
+
+    $scope.showStaffModal = function () {
+      $scope.staff = {};
+      $scope.staffForm.show();
+    }
+
+    $scope.editStaffModal = function (staff) {
+      $scope.staff = staff;
+      $scope.staffForm.show();
+    }
+
+    $scope.closeStaffModal = function () {
+      $scope.staffForm.hide();
+    }
+
+    $scope.saveStaff = function() {
+        StaffService.save($scope.staff);
+        $scope.closeStaffModal();
+        $scope.reloadStaffs();
+    };
+
+    $scope.reloadStaffs();
   
 }])
 
