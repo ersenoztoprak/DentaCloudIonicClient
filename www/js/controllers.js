@@ -219,5 +219,54 @@ angular.module('DentaCloud.controllers', [])
   
 }])
 
+.controller('ServiceController', ['$scope', '$ionicModal', 'ServicesService', function($scope, $ionicModal, ServicesService) {
+    
+  $scope.services = [];
+  // Form data for the service modal
+  $scope.service = {};
 
+    $scope.reloadServices = function() {
+        ServicesService.list().then(function(response) {
+            console.log(response.data);
+            $scope.services = response.data;
+        });
+    };
+
+    $scope.deleteService = function(service) {
+
+        ServicesService.delete(service._id).then(function() {
+            $scope.reloadServices();
+        });
+    };
+
+    // Create the customer modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/serviceDetail.html', {
+        scope: $scope
+    }).then(function (modal) {
+        $scope.serviceForm = modal;
+    });
+
+    $scope.showServiceModal = function () {
+      $scope.service = {};
+      $scope.serviceForm.show();
+    }
+
+    $scope.editServiceModal = function (service) {
+      $scope.service = service;
+      $scope.serviceForm.show();
+    }
+
+    $scope.closeServiceModal = function () {
+      $scope.serviceForm.hide();
+    }
+
+    $scope.saveService = function() {
+        ServicesService.save($scope.service);
+        $scope.closeServiceModal();
+        $scope.reloadServices();
+    };
+
+    $scope.reloadServices();
+  
+}])
 ;

@@ -1,0 +1,50 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Service Card</h1>
+    <div class="buttons">
+      <button class="button button-positive button-clear" ng-click="closeServiceModal()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form name="serviceForm" ng-submit="saveService()">
+      <div class="list">
+
+        <label class="item item-input"  ng-class="{ 'has-errors' : serviceForm.name.$invalid && !serviceForm.name.$pristine , 'no-errors' : serviceForm.name.$valid}">
+          <span class="input-label">Name</span>
+          <input type="text" name="name" ng-model="service.name" required>
+        </label>
+             
+        <div class="error-container" ng-show="serviceForm.name.$error && !serviceForm.name.$pristine " ng-messages="serviceForm.name.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+        <label class="item item-input" ng-class="{ 'has-errors' : serviceForm.price.$invalid && !serviceForm.price.$pristine , 'no-errors' : serviceForm.price.$valid}">
+          <span class="input-label">Price</span>
+          <input type="text" name="price" ng-model="service.price" required>
+        </label>
+
+        <div class="error-container" ng-show="serviceForm.price.$error && !serviceForm.price.$pristine " ng-messages="serviceForm.price.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+        <label class="item item-input" ng-class="{ 'has-errors' : serviceForm.time.$invalid && !serviceForm.time.$pristine , 'no-errors' : serviceForm.time.$valid}">
+          <span class="input-label">Time</span>
+          <input type="text" name="time" ng-model="service.time" required>
+        </label>
+
+        <div class="error-container" ng-show="serviceForm.time.$error && !serviceForm.time.$pristine " ng-messages="serviceForm.time.$error">
+          <div ng-messages-include="error-list.html"></div>
+        </div>
+
+       <label class="item item-input">
+          <span class="input-label">Description</span>
+          <input type="text" ng-model="service.description">
+        </label>
+
+        <label class="item">
+          <button class="button button-block button-positive" ng-disabled="serviceForm.$invalid" type="submit">Save</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

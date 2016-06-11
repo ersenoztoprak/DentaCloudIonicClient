@@ -1,0 +1,25 @@
+<ion-view view-title="Services">
+   
+  <ion-nav-buttons side="secondary">
+      <div class="buttons">
+        <button class="button-assertive icon ion-plus-circled"
+          ng-click="showServiceModal()"></button>
+      </div>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="service in services" ng-click="editServiceModal({{service}})">
+        
+        <p>{{service.name}}</p>
+        <p>{{service.price}}</p>
+        <p>{{service.time}}</p>
+        <p>{{service.description}}</p>
+
+        <ion-option-button class="button button-icon icon ion-ios-minus-outline"
+           ng-click="deleteService({{service}})">
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

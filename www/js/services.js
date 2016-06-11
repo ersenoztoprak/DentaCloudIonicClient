@@ -176,6 +176,14 @@ angular.module('DentaCloud.services', ['ngResource'])
         },
         delete: function(id) {
             return $http.delete(baseURL + 'services/' + id);
+        },
+        save: function (serviceData) {
+          if (serviceData._id) {
+            return $http.put(baseURL + 'services/' + serviceData._id, serviceData);
+          }
+          else {
+            return $http.post(baseURL + 'services', serviceData);
+          }
         }
     };
 }])

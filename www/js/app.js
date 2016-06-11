@@ -51,6 +51,15 @@ angular.module('DentaCloud', ['ionic', 'ngMessages', 'DentaCloud.controllers', '
         }
       }
     })
+  .state('app.services', {
+      url: '/services',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/service.html',
+          controller: 'ServiceController'
+        }
+      }
+    })
     .state('app.schedule', {
       url: '/schedule',
       views: {
