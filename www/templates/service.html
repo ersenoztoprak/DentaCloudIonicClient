@@ -12,8 +12,8 @@
       <ion-item ng-repeat="service in services" ng-click="editServiceModal({{service}})">
         
         <p>{{service.name}}</p>
-        <p>{{service.price}}</p>
-        <p>{{service.time}}</p>
+        <p>{{service.price / 100}}$</p>
+        <p>{{service.time}}(min)</p>
         <p>{{service.description}}</p>
 
         <ion-option-button class="button button-icon icon ion-ios-minus-outline"
